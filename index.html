@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSC GD MOCK TEST</title>
+    <!-- Google Fonts for a clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for emojis/icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General styles */
+        body {
+            background-color: #f0f2f5; /* Light gray background */
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #ffffff; /* White card background */
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative; /* For back button positioning */
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2em;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .action-button, .form-input, .form-textarea, .form-select {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px;
+            padding: 15px;
+            background-color: #4a90e2; /* Blue button color */
+            border: none;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-button:hover:not(:disabled) {
+            background-color: #357bd8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:disabled {
+            background-color: #ccc;
+            color: #888;
+            cursor: not-allowed;
+        }
+        
+        /* Subject grid for square buttons */
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .subject-button {
+            width: 120px;
+            height: 120px;
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1em;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .subject-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .subject-button i, .subject-button span {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+            color: #4a90e2;
+        }
+
+        .subject-button p {
+            margin: 0;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: #4a90e2;
+        }
+
+        .message-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .question-form, .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 8px;
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: #999;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+        }
+        
+        .question-container, .result-container {
+            text-align: left;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FF0000; /* Timer color is red as requested */
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .option-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            color: #333;
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .option-button:hover {
+            background-color: #e9ecef;
+        }
+        
+        .option-button.selected {
+            border-color: #4a90e2;
+            background-color: #dbeaff;
+        }
+        
+        .score-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .score-graph {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        
+        .result-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .result-options .action-button {
+            max-width: 400px;
+        }
+        
+        .test-navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .test-navigation-buttons .action-button {
+            flex-grow: 1;
+            margin: 0 5px;
+        }
+
+        .question-list-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: left;
+            background-color: #f8f9fa;
+        }
+
+        .question-list-item.wrong {
+            background-color: #ffebeb;
+        }
+        
+        .question-list-item.right {
+            background-color: #ebfff1;
+        }
+
+        .correct-answer-text {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .your-answer-text {
+            color: red;
+            font-weight: bold;
+        }
+
+        .question-admin-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .question-admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .question-admin-item p {
+            flex-grow: 1;
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        .question-admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .question-admin-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #4a90e2;
+        }
+        
+        .question-admin-actions .delete-btn {
+            color: #f44336;
+        }
+        
+        /* Small screens */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" id="app-container">
+        <!-- App content will be rendered here by JS -->
+    </div>
+
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get, set, child, push, remove, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Provided Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDmttSwKYkI-8ogVPPoET3O5QajAGihQCw",
+            authDomain: "ssc-gd-d6aad.firebaseapp.com",
+            databaseURL: "https://ssc-gd-d6aad-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "ssc-gd-d6aad",
+            storageBucket: "ssc-gd-d6aad.firebasestorage.app",
+            messagingSenderId: "916448072631",
+            appId: "1:916448072631:web:99afca865385c3302f0e32"
+        };
+        
+        // Initialize Firebase app
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Admin credentials
+        const adminEmail = 'sachinkumarjii753@gmail.com';
+        const adminPassword = 'Sachin@802165';
+        
+        let currentUser = null;
+        let isAdmin = false;
+        
+        let timerInterval;
+
+        const appContainer = document.getElementById('app-container');
+
+        // Function to handle browser's popstate event
+        function handlePopState(event) {
+            if (event.state) {
+                renderPage(event.state.page, event.state.data, false);
+            } else {
+                renderPage('home', {}, false);
+            }
+        }
+
+        // Setup popstate listener once
+        window.addEventListener('popstate', handlePopState);
+        
+        function renderPage(page, data = {}, pushToHistory = true) {
+            if (pushToHistory) {
+                const state = { page, data };
+                window.history.pushState(state, '', `#${encodeURIComponent(JSON.stringify(state))}`);
+            }
+            appContainer.innerHTML = ''; // Clear existing content
+            
+            clearInterval(timerInterval); // Clear any running timer before rendering new page
+
+            if (page !== 'home') {
+                const backBtn = document.createElement('i');
+                backBtn.className = 'fas fa-arrow-left back-button';
+                backBtn.onclick = () => window.history.back();
+                appContainer.prepend(backBtn);
+            }
+
+            switch(page) {
+                case 'home':
+                    renderHomePage();
+                    break;
+                case 'subjectSelection':
+                    renderSubjectSelection(data.userType);
+                    break;
+                case 'testList':
+                    renderTestList(data.subject, data.userType);
+                    break;
+                case 'startTest':
+                    renderTestIntro(data.subject, data.testId); // Renamed for clarity
+                    break;
+                case 'testSession':
+                    startTestSession(data.subject, data.testId, data.questions, data.questionKeys, data.userAnswers, data.timeLeft);
+                    break;
+                case 'testResult':
+                    renderTestResult(data);
+                    break;
+                case 'reviewQuestions':
+                    renderReviewQuestions(data);
+                    break;
+                case 'adminLogin':
+                    renderAdminLogin();
+                    break;
+                case 'adminQuestionUpload':
+                    renderAdminQuestionUpload(data.subject, data.testId);
+                    break;
+                case 'adminEditQuestion':
+                    renderAdminEditQuestion(data.subject, data.testId, data.questionId, data.questionData);
+                    break;
+            }
+        }
+
+        // Modal for showing messages
+        function showMessage(message) {
+            const modal = document.createElement('div');
+            modal.className = 'message-modal';
+            modal.innerHTML = `<p>${message}</p>`;
+            document.body.appendChild(modal);
+            setTimeout(() => {
+                modal.remove();
+            }, 3000);
+        }
+
+        // Render home page
+        function renderHomePage() {
+            appContainer.innerHTML = `
+                <h1>SSC GD MOCK TEST</h1>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <button class="action-button" id="start-test-btn">START TEST</button>
+                    <button class="action-button" id="admin-login-btn">ADMIN LOGIN</button>
+                </div>
+            `;
+            document.getElementById('start-test-btn').onclick = () => renderPage('subjectSelection', { userType: 'user' });
+            document.getElementById('admin-login-btn').onclick = () => renderPage('adminLogin');
+        }
+
+        // Render subject selection page
+        function renderSubjectSelection(userType) {
+            // Only include Hindi and GK/GS
+            const subjectData = [
+                { name: 'Hindi', emoji: 'नमस्ते' },
+                { name: 'GK/GS', emoji: '🌍' }
+            ];
+            
+            let html = `<h1>विषय चुनें</h1><div class="subject-grid">`;
+            subjectData.forEach(subject => {
+                html += `
+                    <button class="subject-button" data-subject="${subject.name}">
+                        <span>${subject.emoji}</span>
+                        <p>${subject.name}</p>
+                    </button>
+                `;
+            });
+            html += `</div>`;
+            if (userType === 'admin') {
+                 html += `<button class="action-button" id="logout-btn" style="margin-top: 20px;">LOGOUT</button>`;
+            }
+            appContainer.innerHTML = html;
+            
+            document.querySelectorAll('.subject-button').forEach(btn => {
+                btn.onclick = (e) => {
+                    const subject = e.currentTarget.dataset.subject;
+                    renderPage('testList', { subject, userType });
+                };
+            });
+            
+            if (userType === 'admin') {
+                 document.getElementById('logout-btn').onclick = handleLogout;
+            }
+        }
+
+        // Render test list page
+        async function renderTestList(subject, userType) {
+            let html = `<h1>${subject} टेस्ट</h1><div style="display: flex; flex-direction: column; align-items: center;">`;
+            let testStatuses = {};
+            
+            if (userType === 'user' && currentUser) {
+                const completedTests = await getCompletedTests(subject);
+                testStatuses = completedTests;
+            }
+
+            for (let i = 1; i <= 10; i++) {
+                const testId = `test${i}`;
+                const isLocked = (userType === 'user') && i > 1 && !testStatuses[`test${i-1}`];
+                
+                html += `
+                    <button class="action-button" data-testid="${testId}" data-subject="${subject}" ${isLocked ? 'disabled' : ''}>
+                        Test ${i} ${isLocked ? '🔒' : ''}
+                    </button>
+                `;
+            }
+
+            html += `</div>`;
+            appContainer.innerHTML = html;
+            
+            document.querySelectorAll('.action-button').forEach(btn => {
+                if (!btn.disabled) {
+                    btn.onclick = (e) => {
+                        const testId = e.currentTarget.dataset.testid;
+                        if (userType === 'admin') {
+                            renderPage('adminQuestionUpload', { subject, testId });
+                        } else {
+                            renderPage('startTest', { subject, testId });
+                        }
+                    };
+                }
+            });
+        }
+        
+        // Render test intro page
+        async function renderTestIntro(subject, testId) {
+            const questions = await getQuestions(subject, testId);
+            if (!questions || Object.keys(questions).length === 0) {
+                 showMessage('इस टेस्ट के लिए कोई प्रश्न उपलब्ध नहीं हैं।');
+                 return;
+            }
+            let questionKeys = Object.keys(questions);
+            
+            // Limit to 20 questions
+            if (questionKeys.length > 20) {
+                questionKeys = questionKeys.slice(0, 20);
+            }
+            
+            const timeLimits = {
+                'Hindi': 20,
+                'GK/GS': 25,
+                'Maths': 35,
+                'Reasoning': 30
+            };
+            const timeLeft = timeLimits[subject] * 60; // in seconds
+
+            appContainer.innerHTML = `
+                <div class="test-intro">
+                    <h1>${subject} - Test ${testId.substring(4)}</h1>
+                    <p>इस टेस्ट में ${questionKeys.length} प्रश्न हैं।</p>
+                    <p>आपके पास ${timeLimits[subject]} मिनट का समय है।</p>
+                    <button class="action-button" id="start-test-session-btn">टेस्ट शुरू करें</button>
+                </div>
+            `;
+            document.getElementById('start-test-session-btn').onclick = () => {
+                renderPage('testSession', { 
+                    subject, 
+                    testId, 
+                    questions, 
+                    questionKeys, 
+                    userAnswers: {}, 
+                    timeLeft
+                });
+            };
+        }
+
+        function startTestSession(subject, testId, questions, questionKeys, userAnswers, initialTime) {
+            let currentQuestionIndex = 0;
+            let timeLeft = initialTime;
+            
+            const timerDisplay = document.createElement('p');
+            timerDisplay.className = 'timer';
+            timerDisplay.id = 'timer';
+            
+            const questionWrapper = document.createElement('div');
+            questionWrapper.className = 'question-wrapper';
+
+            appContainer.innerHTML = '';
+            appContainer.append(timerDisplay, questionWrapper);
+            
+            // Adjust back button for test session
+            const backBtn = document.createElement('i');
+            backBtn.className = 'fas fa-arrow-left back-button';
+            backBtn.onclick = () => {
+                if (confirm("क्या आप टेस्ट छोड़ना चाहते हैं? आपका वर्तमान स्कोर सबमिट हो जाएगा।")) {
+                    clearInterval(timerInterval);
+                    calculateScoreAndFinish(questions, userAnswers, subject, testId, questionKeys);
+                }
+            };
+            appContainer.prepend(backBtn);
+
+            function startTimer() {
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerDisplay.textContent = `समय बचा: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        showMessage('समय समाप्त! आपका टेस्ट सबमिट किया जा रहा है।');
+                        calculateScoreAndFinish(questions, userAnswers, subject, testId, questionKeys);
+                    }
+                }, 1000);
+            }
+            
+            function saveAnswer() {
+                const currentQuestionKey = questionKeys[currentQuestionIndex];
+                const selectedOption = document.querySelector('.option-button.selected');
+                if (selectedOption) {
+                    userAnswers[currentQuestionKey] = selectedOption.dataset.option;
+                } else {
+                    delete userAnswers[currentQuestionKey];
+                }
+            }
+
+            function renderQuestion() {
+                if (currentQuestionIndex >= questionKeys.length) {
+                    clearInterval(timerInterval);
+                    calculateScoreAndFinish(questions, userAnswers, subject, testId, questionKeys);
+                    return;
+                }
+                
+                const questionKey = questionKeys[currentQuestionIndex];
+                const question = questions[questionKey];
+                
+                const optionHtml = question.options.map((opt, index) => `
+                    <button class="option-button" data-option="${index}">
+                        ${String.fromCharCode(65 + index)}. ${opt}
+                    </button>
+                `).join('');
+                
+                const questionContent = `
+                    <div class="question-container">
+                        <p class="question-text">${currentQuestionIndex + 1}. ${question.question}</p>
+                        <div class="options-container">
+                            ${optionHtml}
+                        </div>
+                        <div class="test-navigation-buttons">
+                            <button class="action-button" id="prev-q-btn" ${currentQuestionIndex === 0 ? 'disabled' : ''}>Previous</button>
+                            <button class="action-button" id="save-next-q-btn">Save & Next</button>
+                            <button class="action-button" id="submit-test-btn">Submit Test</button>
+                        </div>
+                    </div>
+                `;
+                questionWrapper.innerHTML = questionContent;
+                
+                // Highlight saved answer if it exists
+                if (userAnswers[questionKey]) {
+                    const savedOptionBtn = document.querySelector(`.option-button[data-option="${userAnswers[questionKey]}"]`);
+                    if (savedOptionBtn) {
+                        savedOptionBtn.classList.add('selected');
+                    }
+                }
+
+                document.querySelectorAll('.option-button').forEach(btn => {
+                    btn.onclick = (e) => {
+                        document.querySelectorAll('.option-button').forEach(b => b.classList.remove('selected'));
+                        e.currentTarget.classList.add('selected');
+                    };
+                });
+                
+                document.getElementById('save-next-q-btn').onclick = () => {
+                    saveAnswer();
+                    currentQuestionIndex++;
+                    renderQuestion();
+                };
+                
+                document.getElementById('prev-q-btn').onclick = () => {
+                    if (currentQuestionIndex > 0) {
+                        saveAnswer();
+                        currentQuestionIndex--;
+                        renderQuestion();
+                    }
+                };
+
+                document.getElementById('submit-test-btn').onclick = () => {
+                    if (confirm('क्या आप टेस्ट सबमिट करना चाहते हैं?')) {
+                        saveAnswer(); // Save the current answer before finishing
+                        clearInterval(timerInterval);
+                        calculateScoreAndFinish(questions, userAnswers, subject, testId, questionKeys);
+                    }
+                };
+            }
+            
+            startTimer();
+            renderQuestion();
+        }
+
+        function calculateScoreAndFinish(questions, userAnswers, subject, testId, questionKeys) {
+            let correctAnswers = 0;
+            let totalQuestions = questionKeys.length;
+            
+            for(const key of questionKeys) {
+                if (userAnswers[key] && questions[key].correctAnswer == userAnswers[key]) {
+                    correctAnswers++;
+                }
+            }
+            
+            setTestComplete(subject, testId);
+            
+            renderPage('testResult', { 
+                score: correctAnswers, 
+                total: totalQuestions, 
+                subject, 
+                testId,
+                questions,
+                userAnswers
+            });
+        }
+
+
+        // Render test result page with graph and review options
+        function renderTestResult(data) {
+            const { score, total, subject, testId, questions, userAnswers } = data;
+            const correctPercent = total > 0 ? Math.round((score / total) * 100) : 0;
+            
+            const html = `
+                <div class="result-container">
+                    <h1>आपका स्कोर</h1>
+                    <p>विषय: ${subject}</p>
+                    <p>टेस्ट: ${testId.substring(4)}</p>
+                    <div class="score-display">
+                        <div class="score-graph">
+                            <canvas id="score-chart" width="150" height="150"></canvas>
+                            <span class="score-text">${correctPercent}%</span>
+                        </div>
+                        <p>सही: ${score}, गलत: ${total - score}</p>
+                    </div>
+
+                    <div class="result-options">
+                        <button class="action-button" id="review-wrong-btn">गलत उत्तर (${total - score})</button>
+                        <button class="action-button" id="review-right-btn">सही उत्तर (${score})</button>
+                        ${testId === 'test1' ? `<button class="action-button" id="next-test-btn">अगला टेस्ट अनलॉक करें</button>` : ''}
+                        <button class="action-button" id="home-btn">होम पर जाएं</button>
+                    </div>
+                </div>
+            `;
+            appContainer.innerHTML = html;
+
+            drawScoreGraph(correctPercent, 'score-chart');
+
+            document.getElementById('review-wrong-btn').onclick = () => {
+                renderPage('reviewQuestions', { 
+                    questions, 
+                    userAnswers, 
+                    isCorrect: false,
+                    subject,
+                    testId
+                });
+            };
+
+            document.getElementById('review-right-btn').onclick = () => {
+                renderPage('reviewQuestions', { 
+                    questions, 
+                    userAnswers, 
+                    isCorrect: true,
+                    subject,
+                    testId
+                });
+            };
+            
+            if (document.getElementById('next-test-btn')) {
+                document.getElementById('next-test-btn').onclick = () => {
+                    const nextTestNum = parseInt(testId.substring(4)) + 1;
+                    const nextTestId = `test${nextTestNum}`;
+                    renderPage('startTest', { subject, testId: nextTestId });
+                };
+            }
+            document.getElementById('home-btn').onclick = () => {
+                renderPage('subjectSelection', { userType: 'user' });
+            };
+        }
+        
+        // Draw the circular score graph
+        function drawScoreGraph(percent, canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return; // Prevent error if canvas is not found
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 70;
+            const endAngle = (2 * Math.PI * percent) / 100;
+            
+            // Draw wrong answers part (red)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#f44336';
+            ctx.fill();
+            
+            // Draw correct answers part (green)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, -Math.PI / 2, -Math.PI / 2 + endAngle);
+            ctx.lineTo(centerX, centerY);
+            ctx.fillStyle = '#4caf50';
+            ctx.fill();
+        }
+
+        // Render review questions page
+        function renderReviewQuestions(data) {
+            const { questions, userAnswers, isCorrect } = data;
+            const questionKeys = Object.keys(questions);
+            
+            let html = `<h1>${isCorrect ? 'सही उत्तर दिए गए प्रश्न' : 'गलत उत्तर दिए गए प्रश्न'}</h1>`;
+            
+            let counter = 0;
+            questionKeys.forEach((key) => {
+                const question = questions[key];
+                const isUserCorrect = (userAnswers[key] == question.correctAnswer);
+                
+                if (isCorrect === isUserCorrect) {
+                    counter++;
+                    html += `
+                        <div class="question-list-item ${isUserCorrect ? 'right' : 'wrong'}">
+                            <p class="question-text">${counter}. ${question.question}</p>
+                            <p>आपका उत्तर: <span class="your-answer-text">${String.fromCharCode(65 + parseInt(userAnswers[key]))}. ${question.options[userAnswers[key]]}</span></p>
+                            ${!isUserCorrect ? `<p class="correct-answer-text">सही उत्तर: ${String.fromCharCode(65 + question.correctAnswer)}. ${question.options[question.correctAnswer]}</p>` : ''}
+                        </div>
+                    `;
+                }
+            });
+
+            appContainer.innerHTML = html;
+        }
+
+        // Render admin login page
+        function renderAdminLogin() {
+            appContainer.innerHTML = `
+                <h1>एडमिन लॉगिन</h1>
+                <div class="login-form">
+                    <input type="email" id="admin-email" class="form-input" placeholder="ईमेल">
+                    <input type="password" id="admin-password" class="form-input" placeholder="पासवर्ड">
+                    <button class="action-button" id="login-btn">LOGIN</button>
+                </div>
+            `;
+            document.getElementById('login-btn').onclick = handleAdminLogin;
+        }
+
+        // Handle admin login
+        async function handleAdminLogin() {
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                currentUser = userCredential.user;
+                isAdmin = true;
+                showMessage('लॉगिन सफल!');
+                renderPage('subjectSelection', { userType: 'admin' });
+            } catch (error) {
+                showMessage('लॉगिन विफल। कृपया ईमेल या पासवर्ड जांचें।');
+                console.error('Firebase Login Error:', error);
+            }
+        }
+
+        // Handle admin logout
+        async function handleLogout() {
+             try {
+                await signOut(auth);
+                currentUser = null;
+                isAdmin = false;
+                showMessage('Lलॉगआउट सफल।');
+                renderPage('home');
+             } catch (error) {
+                 showMessage('Lलॉगआउट विफल।');
+                 console.error('Firebase Logout Error:', error);
+             }
+        }
+
+        // Render admin question upload page
+        async function renderAdminQuestionUpload(subject, testId) {
+            const questions = await getQuestions(subject, testId);
+            const questionListHtml = questions ? Object.keys(questions).map((key, index) => {
+                const question = questions[key];
+                const correctOption = String.fromCharCode(65 + question.correctAnswer);
+                return `
+                    <div class="question-admin-item">
+                        <p>${index + 1}. ${question.question}</p>
+                        <p>सही उत्तर: ${correctOption}</p>
+                        <div class="question-admin-actions">
+                            <button class="edit-btn" data-id="${key}" data-subject="${subject}" data-testid="${testId}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete-btn" data-id="${key}" data-subject="${subject}" data-testid="${testId}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') : '<p>कोई प्रश्न नहीं मिला।</p>';
+
+            appContainer.innerHTML = `
+                <h1>${subject} - ${testId}</h1>
+                <p>इस टेस्ट के लिए प्रश्न अपलोड करें।</p>
+                <div class="question-form">
+                    <textarea id="question-box" class="form-textarea" placeholder="प्रश्न यहाँ लिखें..."></textarea>
+                    <input type="text" id="option1-box" class="form-input" placeholder="विकल्प A">
+                    <input type="text" id="option2-box" class="form-input" placeholder="विकल्प B">
+                    <input type="text" id="option3-box" class="form-input" placeholder="विकल्प C">
+                    <input type="text" id="option4-box" class="form-input" placeholder="विकल्प D">
+                    <select id="correct-answer-select" class="form-select">
+                        <option value="">सही उत्तर चुनें</option>
+                        <option value="0">विकल्प A</option>
+                        <option value="1">विकल्प B</option>
+                        <option value="2">विकल्प C</option>
+                        <option value="3">विकल्प D</option>
+                    </select>
+                    <button class="action-button" id="upload-btn">प्रश्न अपलोड करें</button>
+                </div>
+                <div class="question-admin-list">
+                    <h2>पहले से अपलोड किए गए प्रश्न</h2>
+                    ${questionListHtml}
+                </div>
+            `;
+            document.getElementById('upload-btn').onclick = () => handleQuestionUpload(subject, testId);
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.onclick = (e) => handleDeleteQuestion(e.currentTarget.dataset.id, subject, testId);
+            });
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const questionId = e.currentTarget.dataset.id;
+                    const questionData = await getQuestion(subject, testId, questionId);
+                    if (questionData) {
+                        renderPage('adminEditQuestion', { subject, testId, questionId, questionData });
+                    } else {
+                        showMessage('प्रश्न नहीं मिला।');
+                    }
+                };
+            });
+        }
+        
+        // Render admin question edit page
+        function renderAdminEditQuestion(subject, testId, questionId, questionData) {
+            appContainer.innerHTML = `
+                <h1>${subject} - ${testId} (Edit)</h1>
+                <div class="question-form">
+                    <textarea id="question-box" class="form-textarea" placeholder="प्रश्न यहाँ लिखें...">${questionData.question}</textarea>
+                    <input type="text" id="option1-box" class="form-input" placeholder="विकल्प A" value="${questionData.options[0]}">
+                    <input type="text" id="option2-box" class="form-input" placeholder="विकल्प B" value="${questionData.options[1]}">
+                    <input type="text" id="option3-box" class="form-input" placeholder="विकल्प C" value="${questionData.options[2]}">
+                    <input type="text" id="option4-box" class="form-input" placeholder="विकल्प D" value="${questionData.options[3]}">
+                    <select id="correct-answer-select" class="form-select">
+                        <option value="">सही उत्तर चुनें</option>
+                        <option value="0" ${questionData.correctAnswer === 0 ? 'selected' : ''}>विकल्प A</option>
+                        <option value="1" ${questionData.correctAnswer === 1 ? 'selected' : ''}>विकल्प B</option>
+                        <option value="2" ${questionData.correctAnswer === 2 ? 'selected' : ''}>विकल्प C</option>
+                        <option value="3" ${questionData.correctAnswer === 3 ? 'selected' : ''}>विकल्प D</option>
+                    </select>
+                    <button class="action-button" id="update-btn">अपडेट करें</button>
+                </div>
+            `;
+            document.getElementById('update-btn').onclick = () => handleUpdateQuestion(subject, testId, questionId);
+        }
+
+        // Handle update question
+        async function handleUpdateQuestion(subject, testId, questionId) {
+            const question = document.getElementById('question-box').value;
+            const options = [
+                document.getElementById('option1-box').value,
+                document.getElementById('option2-box').value,
+                document.getElementById('option3-box').value,
+                document.getElementById('option4-box').value
+            ];
+            const correctAnswer = document.getElementById('correct-answer-select').value;
+
+            if (!question || options.some(opt => !opt) || correctAnswer === '') {
+                showMessage('कृपया सभी फ़ील्ड भरें।');
+                return;
+            }
+
+            const updatedQuestion = {
+                question,
+                options,
+                correctAnswer: parseInt(correctAnswer)
+            };
+
+            await updateQuestion(subject, testId, questionId, updatedQuestion);
+            showMessage('प्रश्न सफलतापूर्वक अपडेट किया गया!');
+            renderPage('adminQuestionUpload', { subject, testId }, false);
+        }
+
+        // Handle question upload
+        async function handleQuestionUpload(subject, testId) {
+            const question = document.getElementById('question-box').value;
+            const options = [
+                document.getElementById('option1-box').value,
+                document.getElementById('option2-box').value,
+                document.getElementById('option3-box').value,
+                document.getElementById('option4-box').value
+            ];
+            const correctAnswer = document.getElementById('correct-answer-select').value;
+            
+            if (!question || options.some(opt => !opt) || correctAnswer === '') {
+                showMessage('कृपया सभी फ़ील्ड भरें।');
+                return;
+            }
+            
+            const newQuestion = {
+                question,
+                options,
+                correctAnswer: parseInt(correctAnswer)
+            };
+            
+            await saveQuestion(subject, testId, newQuestion);
+            showMessage('प्रश्न सफलतापूर्वक अपलोड किया गया!');
+            
+            // Reload the page to show the new question
+            renderPage('adminQuestionUpload', { subject, testId }, false);
+        }
+
+        // Handle question delete
+        async function handleDeleteQuestion(questionId, subject, testId) {
+            if (confirm('क्या आप इस प्रश्न को हटाना चाहते हैं?')) {
+                await deleteQuestion(subject, testId, questionId);
+                showMessage('प्रश्न सफलतापूर्वक हटा दिया गया!');
+                renderPage('adminQuestionUpload', { subject, testId }, false);
+            }
+        }
+
+        // Firebase Database operations
+        async function saveQuestion(subject, testId, questionData) {
+            const questionsRef = ref(db, `questions/${subject}/${testId}`);
+            await push(questionsRef, questionData);
+        }
+
+        async function updateQuestion(subject, testId, questionId, questionData) {
+            const questionRef = ref(db, `questions/${subject}/${testId}/${questionId}`);
+            await update(questionRef, questionData);
+        }
+
+        async function deleteQuestion(subject, testId, questionId) {
+            const questionRef = ref(db, `questions/${subject}/${testId}/${questionId}`);
+            await remove(questionRef);
+        }
+
+        async function getQuestions(subject, testId) {
+            const questionsRef = ref(db, `questions/${subject}/${testId}`);
+            try {
+                const snapshot = await get(questionsRef);
+                if (snapshot.exists()) {
+                    return snapshot.val();
+                }
+            } catch (error) {
+                console.error("Failed to fetch questions:", error);
+            }
+            return null;
+        }
+        
+        async function getQuestion(subject, testId, questionId) {
+            const questionRef = ref(db, `questions/${subject}/${testId}/${questionId}`);
+            try {
+                const snapshot = await get(questionRef);
+                if (snapshot.exists()) {
+                    return snapshot.val();
+                }
+            } catch (error) {
+                console.error("Failed to fetch question:", error);
+            }
+            return null;
+        }
+
+        async function setTestComplete(subject, testId) {
+            if (currentUser) {
+                const testRef = ref(db, `users/${currentUser.uid}/completedTests/${subject}/${testId}`);
+                await set(testRef, true);
+            }
+        }
+        
+        async function getCompletedTests(subject) {
+            if (currentUser) {
+                const testsRef = ref(db, `users/${currentUser.uid}/completedTests/${subject}`);
+                const snapshot = await get(testsRef);
+                return snapshot.exists() ? snapshot.val() : {};
+            }
+            return {};
+        }
+
+        // Start the app
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            isAdmin = user && user.email === adminEmail;
+            
+            // Handle initial page load from URL hash
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                try {
+                    const state = JSON.parse(decodeURIComponent(hash));
+                    renderPage(state.page, state.data, false);
+                } catch (e) {
+                    console.error("Invalid initial hash state:", e);
+                    renderPage('home');
+                }
+            } else {
+                renderPage('home');
+            }
+        });
+    </script>
+</body>
+</html>
